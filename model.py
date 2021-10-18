@@ -2,9 +2,13 @@ from datetime import date
 
 class Model:
     def __init__(self):
-        self.razdelek = ['Želim prebrati', 'Trenutno berem', 'Seznam že prebranih knjig']
+        self.razdelek = Razdelek(['Želim prebrati', 'Berem', 'Že prebrano'])
+        self.aktualni_razdelek = None
 
-class Razdelki:
+    def zamenjaj_razdelek(self, razdelek):
+        self.aktualni_razdelek = razdelek
+
+class Razdelek:
     def __init__(self, ime):
         self.ime = ime
         self.knjige = []
@@ -13,7 +17,7 @@ class Razdelki:
         self.knjige.append(knjiga)
 
 class Knjige:
-    def __init__(self, naslov, avtor, st_strani, faza_branja, st_prebranih_strani):
+    def __init__(self, naslov, avtor, st_strani):
         self.naslov = naslov
         self.avtor = avtor
         self.st_strani = st_strani
@@ -21,15 +25,16 @@ class Knjige:
         self.st_prebranih_strani = 0
     
     def zacni_brati(self):
-        self.prebrano = None
+        self.faza_branja = None
 
     def preberi(self):
-        self.prebrano = True
+        self.st_prebranih_strani = self.st_strani
+        self.faza_branja = True
 
     def preberi_n_strani(self, n):
         self.st_prebranih_strani += n
         
-testni_model = ['test1']
+    
 
 
 
