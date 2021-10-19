@@ -10,9 +10,6 @@ class Model:
 
 class Razdelek:
     def __init__(self, ime):
-        prvi_razdelek = 'ZELIM PREBRATI'
-        drugi_razdelek = 'V BRANJU' 
-        tretji_razdelek = 'PREBRANA'
         self.ime = ime
         self.knjige = []
 
@@ -24,6 +21,13 @@ class Razdelek:
 
     def stevilo_knjig_v_razdelku(self):
         return len(self.knjige)
+
+    def naslovi_knjig_v_razdelku(self):
+        niz = ''
+        for knjiga in self.knjige:
+            niz += str(knjiga.naslov) + ', '
+        return niz[:-2]
+
 
 
 class Knjige:
