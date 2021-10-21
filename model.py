@@ -1,6 +1,7 @@
 from datetime import datetime
 
 class Model:
+
     def __init__(self):
         self.aktualni_razdelek = None
 
@@ -28,7 +29,15 @@ class Razdelek:
             niz += str(knjiga.naslov) + ', '
         return niz[:-2]
 
+    def prikaz_knjig_v_razdelku(razdelek): #popravi, da bo izpisalo vse podatke o knjigi
+        return f'{razdelek.ime}: ' + str(razdelek.naslovi_knjig_v_razdelku())
 
+    def seznam_knjig_na_razdelku(razdelek):
+        return razdelek.naslovi_knjig_v_razdelku.split()
+
+    
+
+# fazo branja moram spremeniti v razdelek, ki mu ta knjiga pripada
 
 class Knjige:
     def __init__(self, naslov, avtor, st_strani, faza_branja='ZELIM PREBRATI'):
@@ -43,6 +52,9 @@ class Knjige:
     def __str__(self):
         return f"{self.faza_branja}: {self.naslov}, {self.avtor}, prebranih {self.st_prebranih_strani} strani od {self.st_strani}"
     
+    def __repr__(self):
+        return f"Knjiga({self.naslov})"
+
     def zacni_brati(self):
         self.faza_branja = 'V BRANJU' 
         self.datum = datetime.now()
