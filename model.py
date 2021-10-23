@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 class Model:
 
@@ -14,9 +14,6 @@ class Razdelek:
         self.ime = ime
         self.knjige = []
 
-    def __str__(self):
-        return self.ime + ': ' + str(self.knjige)
-
     def dodaj_knjige(self, knjiga):
         self.knjige.append(knjiga)
 
@@ -29,65 +26,47 @@ class Razdelek:
             niz += str(knjiga.naslov) + ', '
         return niz[:-2]
 
-    def prikaz_knjig_v_razdelku(razdelek): #popravi, da bo izpisalo vse podatke o knjigi
-        return f'{razdelek.ime}: ' + str(razdelek.naslovi_knjig_v_razdelku())
-
-    def seznam_knjig_na_razdelku(razdelek):
-        return razdelek.naslovi_knjig_v_razdelku.split()
-
-    
-
-# fazo branja moram spremeniti v razdelek, ki mu ta knjiga pripada
 
 class Knjige:
-    def __init__(self, naslov, avtor, st_strani, faza_branja='ZELIM PREBRATI'):
+    def __init__(self, naslov, avtor, st_strani):
         self.naslov = naslov
         self.avtor = avtor
         self.st_strani = st_strani
-        self.faza_branja = faza_branja
         self.st_prebranih_strani = 0
-        self.datum = datetime.now()
-        self.zgodovina = [(0, self.datum)] #seznam bo opisoval, kdaj sem prebrala koliko strani
+        self.datum = date.today()
+        self.zgodovina = [(0, self.datum)] 
 
     def __str__(self):
-        return f"{self.faza_branja}: {self.naslov}, {self.avtor}, prebranih {self.st_prebranih_strani} strani od {self.st_strani}"
-    
+        return f"{self.naslov}"
+
     def __repr__(self):
-        return f"Knjiga({self.naslov})"
-
-    def zacni_brati(self):
-        self.faza_branja = 'V BRANJU' 
-        self.datum = datetime.now()
-        self.zgodovina.append((0, self.datum))
-
+        procent = self.delez_prebrane_knjige()
+        datum = self.datum.strftime("%B %d, %Y")
+        if int(self.st_prebranih_strani) == 0:
+            return f"{self.naslov}, {self.avtor}: Prebranih 0 strani."
+        elif int(self.st_prebranih_strani) < int(self.st_strani):
+            return f"Na dan {datum} prebranih {self.st_prebranih_strani} strani"+ f" ({procent}" +"%)" + f" knjige: {self.naslov}, {self.avtor}" 
+        elif int(self.st_prebranih_strani) == int(self.st_strani):
+            return f"Na dan {datum} prebrana knjiga: {self.naslov}, {self.avtor}" 
+        
     def preberi_n_strani(self, n):
         self.st_prebranih_strani += n
-        self.datum = datetime.now()
-        if  self.faza_branja == 'ZELIM PREBRATI': 
-            self.zacni_brati()
-            self.zgodovina.append((self.st_prebranih_strani, self.datum))
-        elif self.st_prebranih_strani == self.st_strani:
-            self.preberi()
-        else:
-            self.faza_branja = 'V BRANJU'
-
-    def preberi(self):
-        if self.faza_branja == 'ZELIM PREBRATI':
-            self.zacni_brati
-        self.st_prebranih_strani = self.st_strani
-        self.faza_branja = 'PREBRANA'
-        self.datum = datetime.now()
+        self.datum = date.today()
         self.zgodovina.append((self.st_prebranih_strani, self.datum))
 
+    def preberi(self):
+        self.st_prebranih_strani = self.st_strani
+        self.datum = date.today()
+        self.zgodovina.append((self.st_prebranih_strani, self.datum, 'PREBRANO'))
+
     def delez_prebrane_knjige(self):
-        st_prebranih = self.st_prebranih_strani
-        st_strani = self.st_strani
+        st_prebranih = int(self.st_prebranih_strani)
+        st_strani = int(self.st_strani)
         return int((st_prebranih * 100) // st_strani)
 
-    def kako_dolgo_berem(self): # tudi ne dela
-        if self.faza_branja != 'ZELIM PREBRATI':
-            zacetek = self.zgodovina[1][1]
-            konec = self.zgodovina[-1][1]
-            print((zacetek, konec))
-            return konec - zacetek
+    def koliko_casa_berem(self):
+        zacetek = self.zgodovina[0][1]
+        konec = self.zgodovina[-1][1]
+        razlika = konec - zacetek
+        return razlika.days
 
