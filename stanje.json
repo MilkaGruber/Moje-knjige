@@ -1,1 +1,1 @@
-{"aktualni_razdelek": 
+{"razdelki": [{"ime": "ZELIM PREBRATI", "knjige": [{"naslov": "HAMLET", "avtor": "WILLIAM SHAKESPEARE", "st_strani": 200, "st_prebranih_strani": 0, "datum": "2021-10-24", "zgodovina": [[0, "2021-10-24"]]}]}, {"ime": "V BRANJU", "knjige": []}, {"ime": "PREBRANA", "knjige": [{"naslov": "Ana Karenina", "avtor": "Tolstoj", "st_strani": 1000, "st_prebranih_strani": 1000, "datum": "2021-10-24", "zgodovina": [[0, "2021-10-24"], [1000, "2021-10-24", "PREBRANO"]]}]}, {"ime": "IZHOD", "knjige": []}], "aktualni_razdelek": 3}
