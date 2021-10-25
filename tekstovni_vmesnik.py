@@ -20,16 +20,16 @@ RAZDELEK4 = model.razdelki[3] #RAZDELEK Izhod
 
 moznosti_prvic = [(DODAJ_KNJIGO, 'dodaj knjigo v razdelek ZELIM PREBRATI'),
 (PREBERI_STRANI, 'zacni brati knjigo z razdelka ZELIM PREBRATI'), 
-(POBRISI_KNJIGO, f'izbrisi knjigo z razdelka ZELIM PREBRATI'),
+(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka ZELIM PREBRATI'),
 (ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]
 
 moznosti_drugic = [(PREBERI_STRANI, 'zabeleži število prebranih strani izbrane knjige'),
-(POBRISI_KNJIGO, f'izbrisi knjigo z razdelka V BRANJU'),
+(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka V BRANJU'),
 (PODROBNOSTI_O_KNJIGI, 'prikaži podrobnosti o knjigi'),
 (ZGODOVINA, 'oglej si zgodovino branja izbrane knjige'),
 (ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]
 
-moznosti_tretjic = [(POBRISI_KNJIGO, f'izbrisi knjigo z razdelka PREBRANO'),
+moznosti_tretjic = [(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka PREBRANO'),
 (PODROBNOSTI_O_KNJIGI, 'prikaži podrobnosti o izbrani knjigi'),
 (ZGODOVINA, 'oglej si zgodovino branja izbrane knjige'),
 (ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]

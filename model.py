@@ -79,7 +79,7 @@ class Razdelek:
 
 ZELIM_PREBRATI = Razdelek('ZELIM PREBRATI')
 V_BRANJU = Razdelek('V BRANJU')
-PREBRANE = Razdelek('PREBRANA')
+PREBRANE = Razdelek('PREBRANE')
 IZHOD = Razdelek('IZHOD')
 
 
@@ -133,9 +133,6 @@ class Knjige:
                 return niz
         else:
             return f'Na dan {self.datum} dodana knjiga {self.naslov}.'
-
-
-
 
     def  v_slovar(self):
         '''Knjigo zapise v slovar'''
