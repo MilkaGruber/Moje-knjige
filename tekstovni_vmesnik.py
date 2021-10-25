@@ -1,4 +1,4 @@
-from model import Model, Razdelek, Knjige, ZELIM_PREBRATI, V_BRANJU, PREBRANE, IZHOD
+from model import Model, Razdelek, Knjige
 
 IME_DATOTEKE = "stanje.json"
 try:
@@ -12,6 +12,11 @@ POBRISI_KNJIGO = 3
 PREBERI_STRANI = 4
 PODROBNOSTI_O_KNJIGI = 5
 ZGODOVINA = 6
+
+RAZDELEK1 = model.razdelki[0] #RAZDELEK Zelim prebrati
+RAZDELEK2 = model.razdelki[1] #RAZDELEK V branju
+RAZDELEK3 = model.razdelki[2] #RAZDELEK Prebrane
+RAZDELEK4 = model.razdelki[3] #RAZDELEK Izhod
 
 moznosti_prvic = [(DODAJ_KNJIGO, 'dodaj knjigo v razdelek'),
 (PREBERI_STRANI, 'zacni brati knjigo'), 
@@ -29,11 +34,6 @@ moznosti_tretjic = [(POBRISI_KNJIGO, 'izbrisi knjigo iz razdelka'),
 (ZGODOVINA, 'oglej si zgodovino branja'),
 (ZAMENJAJ_RAZDELEK, 'pojdi na drug razdelek')]
 
-razdelki = [(ZELIM_PREBRATI , 'seznam knjig, ki jih želim prebrati'), 
-(V_BRANJU, 'knjige, ki jih trenutno berem'), 
-(PREBRANE, 'seznam že prebranih knjig'),
-(IZHOD, 'izhod iz programa')]
-
 def prazen_razdelek(razdelek):
     return razdelek.stevilo_knjig_v_razdelku() == 0
 
@@ -49,6 +49,18 @@ def izberi_moznost(moznosti):
         except ValueError:
             print(f'Vnesti morate celo število med 1 in {len(moznosti)}')
 
+def izberi_razdelek(sez):
+    for i in range(len(sez)):
+        print(f"{i + 1} {sez[i].prestavitev_razdelka()}")
+    while True:
+        vnos_stevila = input('> ')
+        try:
+            int(vnos_stevila)
+            if 1 <= int(vnos_stevila) <= len(sez):
+                return sez[int(vnos_stevila) - 1]
+        except ValueError:
+            print(f'Vnesti morate celo število med 1 in {len(sez)}')
+
 def izberi_knjigo(sez_knjig):
     for i in range(len(sez_knjig)):
         print(f"{i + 1} {sez_knjig[i]}")
@@ -61,20 +73,11 @@ def izberi_knjigo(sez_knjig):
         except ValueError:
             print(f'Vnesti morate celo število med 1 in {len(sez_knjig)}')
 
-def vnos_stevila_strani(): #mgoče ne rabim
-    while True:
-        n = input('Število strani> ')
-        try:
-            int(n)
-        except ValueError:
-            print('Vnesti morate celo število!')
-    
-
 def tekstovni_vmesnik():
     prikazi_pozdravno_sporocilo()
-    zamenjaj_razdelek()
+    model.aktualni_razdelek = RAZDELEK1
     while True:
-        if model.aktualni_razdelek == ZELIM_PREBRATI: 
+        if model.aktualni_razdelek == RAZDELEK1: 
             predstavitev_aktualnega_razdelka()
             drugi_ukaz = izberi_moznost(moznosti_prvic)
             if drugi_ukaz == DODAJ_KNJIGO:
@@ -85,7 +88,7 @@ def tekstovni_vmesnik():
                 preberi_strani()
             elif drugi_ukaz == ZAMENJAJ_RAZDELEK:
                 zamenjaj_razdelek()
-        elif model.aktualni_razdelek == V_BRANJU: 
+        elif model.aktualni_razdelek == RAZDELEK2: 
             predstavitev_aktualnega_razdelka()
             tretji_ukaz = izberi_moznost(moznosti_drugic)
             if tretji_ukaz == PREBERI_STRANI:
@@ -98,7 +101,7 @@ def tekstovni_vmesnik():
                 prikazi_zgodovino_branja()
             elif tretji_ukaz == PODROBNOSTI_O_KNJIGI:
                 prikazi_podrobnosti()
-        elif model.aktualni_razdelek == PREBRANE:
+        elif model.aktualni_razdelek == RAZDELEK3:
             predstavitev_aktualnega_razdelka()
             cetrti_ukaz = izberi_moznost(moznosti_tretjic)
             if cetrti_ukaz == ZAMENJAJ_RAZDELEK:
@@ -110,7 +113,7 @@ def tekstovni_vmesnik():
             elif cetrti_ukaz == POBRISI_KNJIGO:
                 pobrisi_knjigo_z_razdelka()
                 cetrti_ukaz
-        elif model.aktualni_razdelek == IZHOD:
+        elif model.aktualni_razdelek == RAZDELEK4:
             model.shrani_v_datoteko(IME_DATOTEKE)
             print('Nasvidenje!')
             break
@@ -118,16 +121,12 @@ def tekstovni_vmesnik():
 def prikazi_pozdravno_sporocilo(): 
     print('Pozdravljeni v programu Moje knjige')
 
-def predstavitev_aktualnega_razdelka():  
-    if model.aktualni_razdelek.stevilo_knjig_v_razdelku() == 0:
-        print(f'Ste na razdelku: {model.aktualni_razdelek.ime}')
-        print('V tem razdelku ni vnešene nobene knjige.') 
-    else:
-        print(f'{model.aktualni_razdelek.ime}: ' + model.aktualni_razdelek.naslovi_knjig_v_razdelku())
-
+def predstavitev_aktualnega_razdelka():   
+    model.izpis_aktualnega_razdelka()
+  
 def zamenjaj_razdelek(): 
     print("Izberite željen razdelek")
-    razdelek = izberi_moznost(razdelki)
+    razdelek = izberi_razdelek(model.razdelki)
     model.zamenjaj_razdelek(razdelek)
 
 def dodaj_knjigo(): 
@@ -148,9 +147,9 @@ def pobrisi_knjigo_z_razdelka():
         print('Ta razdelek je prazen, dodajte knjigo!')
     else:
         knjiga = izberi_knjigo(model.aktualni_razdelek.knjige)
-        (model.aktualni_razdelek.knjige).remove(knjiga)
+        model.aktualni_razdelek.knjige.remove(knjiga)
 
-def preberi_strani(): #popravi 
+def preberi_strani(): 
     if prazen_razdelek(model.aktualni_razdelek):
         print('Ta razdelek je prazen, najprej dodajte knjigo!')
     else:
@@ -161,13 +160,13 @@ def preberi_strani(): #popravi
         try:
             if n == 'cela':
                 knjiga.preberi()
-                PREBRANE.dodaj_knjige(knjiga)
+                RAZDELEK3.dodaj_knjige(knjiga)
                 model.aktualni_razdelek.knjige.remove(knjiga)
-            elif int(n) and 0 <= int(n) and int(n) <= st_moznih:
+            elif int(n) and 0 <= int(n) and int(n) < st_moznih:
                 knjiga.preberi_n_strani(int(n))
-                if model.aktualni_razdelek == ZELIM_PREBRATI:
-                    ZELIM_PREBRATI.knjige.remove(knjiga) 
-                    V_BRANJU.dodaj_knjige(knjiga)
+                if model.aktualni_razdelek == RAZDELEK1:
+                    RAZDELEK1.izbrisi_knjigo(knjiga) 
+                    RAZDELEK2.dodaj_knjige(knjiga)
         except ValueError:
             print(f'Neveljaven vnos! Prosim vnesite celo število med 0 in {int(knjiga.st_strani) - int(knjiga.st_prebranih_strani)} ali besedo "cela".')
 
@@ -178,15 +177,11 @@ def prikazi_podrobnosti():
         knjiga = izberi_knjigo(model.aktualni_razdelek.knjige)
         print(knjiga.__repr__()) 
 
-def prikazi_zgodovino_branja():
+def prikazi_zgodovino_branja(): 
     if prazen_razdelek(model.aktualni_razdelek):
         print('Ta razdelek je prazen, dodajte knjigo!')
     else:
         knjiga = izberi_knjigo(model.aktualni_razdelek.knjige)
-        print(knjiga.zgodovina)
-        if len(knjiga.zgodovina[-1]) == 3:
-            print(f'Knjigo {knjiga} sem prebral v {knjiga.koliko_casa_berem()} dneh.')
-        else:
-            print(f'Knjigo {knjiga} berem {knjiga.koliko_casa_berem()} dni.')
+        print(knjiga.izpis_zgodovine())
 
-#tekstovni_vmesnik()
+tekstovni_vmesnik()
