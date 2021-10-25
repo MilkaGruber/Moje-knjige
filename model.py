@@ -17,12 +17,14 @@ class Model:
             print(f'Ste na razdelku: {self.aktualni_razdelek.ime}')
             print('V tem razdelku ni vnešene nobene knjige.')
         else:
-            print(f'{self.aktualni_razdelek.ime}: ' + self.aktualni_razdelek.naslovi_knjig_v_razdelku())
+            print(f'{self.aktualni_razdelek.ime}: ' 
+            + self.aktualni_razdelek.naslovi_knjig_v_razdelku())
     
     @staticmethod
     def iz_slovarja(slovar): 
         model = Model()
-        model.razdelki = [Razdelek.iz_slovarja(slovar_razdelka) for slovar_razdelka in slovar["razdelki"]]
+        model.razdelki = [Razdelek.iz_slovarja(slovar_razdelka) 
+        for slovar_razdelka in slovar["razdelki"]]
         model.aktualni_razdelek = ZELIM_PREBRATI
         return model
 
@@ -101,7 +103,8 @@ class Knjige:
         if int(self.st_prebranih_strani) == 0:
             return f"{self.naslov}, {self.avtor}: Prebranih 0 strani."
         elif int(self.st_prebranih_strani) < int(self.st_strani):
-            return f"Na dan {datum} prebranih {self.st_prebranih_strani} strani"+ f" ({procent}" +"%)" + f" knjige: {self.naslov}, {self.avtor}" 
+            return (f"Na dan {datum} prebranih {self.st_prebranih_strani} strani" + 
+            f" ({procent}" +"%)" + f" knjige: {self.naslov}, {self.avtor}") 
         elif int(self.st_prebranih_strani) == int(self.st_strani):
             return f"Na dan {datum} prebrana knjiga: {self.naslov}, {self.avtor}" 
         

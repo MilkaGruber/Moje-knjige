@@ -18,21 +18,34 @@ RAZDELEK2 = model.razdelki[1] #RAZDELEK V branju
 RAZDELEK3 = model.razdelki[2] #RAZDELEK Prebrane
 RAZDELEK4 = model.razdelki[3] #RAZDELEK Izhod
 
-moznosti_prvic = [(DODAJ_KNJIGO, 'dodaj knjigo v razdelek ZELIM PREBRATI'),
-(PREBERI_STRANI, 'zacni brati knjigo z razdelka ZELIM PREBRATI'), 
-(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka ZELIM PREBRATI'),
-(ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]
+moznosti_prvic = [(DODAJ_KNJIGO, 
+'dodaj knjigo v razdelek ZELIM PREBRATI'),
+(PREBERI_STRANI, 
+'zacni brati knjigo z razdelka ZELIM PREBRATI'), 
+(POBRISI_KNJIGO, 
+'izbrisi knjigo z razdelka ZELIM PREBRATI'),
+(ZAMENJAJ_RAZDELEK, 
+'odpri drug razdelek')]
 
-moznosti_drugic = [(PREBERI_STRANI, 'zabeleži število prebranih strani izbrane knjige'),
-(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka V BRANJU'),
-(PODROBNOSTI_O_KNJIGI, 'prikaži podrobnosti o knjigi'),
-(ZGODOVINA, 'oglej si zgodovino branja izbrane knjige'),
-(ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]
+moznosti_drugic = [(PREBERI_STRANI, 
+'zabeleži število prebranih strani izbrane knjige'),
+(POBRISI_KNJIGO, 
+'izbrisi knjigo z razdelka V BRANJU'),
+(PODROBNOSTI_O_KNJIGI, 
+'prikaži podrobnosti o knjigi'),
+(ZGODOVINA, 
+'oglej si zgodovino branja izbrane knjige'),
+(ZAMENJAJ_RAZDELEK, 
+'odpri drug razdelek')]
 
-moznosti_tretjic = [(POBRISI_KNJIGO, 'izbrisi knjigo z razdelka PREBRANO'),
-(PODROBNOSTI_O_KNJIGI, 'prikaži podrobnosti o izbrani knjigi'),
-(ZGODOVINA, 'oglej si zgodovino branja izbrane knjige'),
-(ZAMENJAJ_RAZDELEK, 'odpri drug razdelek')]
+moznosti_tretjic = [(POBRISI_KNJIGO, 
+'izbrisi knjigo z razdelka PREBRANO'),
+(PODROBNOSTI_O_KNJIGI, 
+'prikaži podrobnosti o izbrani knjigi'),
+(ZGODOVINA, 
+'oglej si zgodovino branja izbrane knjige'),
+(ZAMENJAJ_RAZDELEK, 
+'odpri drug razdelek')]
 
 def prazen_razdelek(razdelek):
     return razdelek.stevilo_knjig_v_razdelku() == 0
@@ -153,7 +166,8 @@ def preberi_strani():
     if prazen_razdelek(model.aktualni_razdelek):
         print('Ta razdelek je prazen, najprej dodajte knjigo!')
     else:
-        print('Izberite knjigo in zabeležite, če ste knjigo že prebrali ali število prebranih strani.')
+        print('Izberite knjigo in zabeležite,' + 
+        ' če ste knjigo že prebrali ali število prebranih strani.')
         knjiga = izberi_knjigo(model.aktualni_razdelek.knjige)
         st_moznih = int(knjiga.st_strani) - int(knjiga.st_prebranih_strani)
         while True:
@@ -162,9 +176,11 @@ def preberi_strani():
                 1 / (0 <= int(n) <= st_moznih)
                 break
             except ValueError:
-                print(f'Neveljaven vnos! Vnesti morate celo število med 0 in {int(knjiga.st_strani) - int(knjiga.st_prebranih_strani)} ali besedo "cela".')
+                print(f'Neveljaven vnos! Vnesti morate število med ' +
+                '0 in {st_moznih} ali besedo "cela".')
             except ZeroDivisionError:
-                print(f'Neveljaven vnos! Vnesti morate celo število med 0 in {int(knjiga.st_strani) - int(knjiga.st_prebranih_strani)} ali besedo "cela".')
+                print(f'Neveljaven vnos! Vnesti morate število med ' + 
+                '0 in {st_moznih} ali besedo "cela".')
         if 0 <= int(n) < st_moznih:
             knjiga.preberi_n_strani(int(n))
             if model.aktualni_razdelek == RAZDELEK1:
