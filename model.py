@@ -41,6 +41,15 @@ class Model:
             slovar = json.load(dat)
             return Model.iz_slovarja(slovar)
 
+    def preveri_podatke_knjige(self, naslov):
+        napake = {}
+        if not naslov:
+            napake['naslov'] = 'Naslov mora biti neprazen'
+        for knjiga in self.razdelki[0].knjige:
+            if knjiga.naslov == naslov:
+                napake['naslov'] = 'Ta knjiga je že na seznamu želja!'
+        return napake
+
 
 class Razdelek:
     def __init__(self, ime):
@@ -79,6 +88,7 @@ class Razdelek:
         razdelek = Razdelek(slovar["ime"])
         razdelek.knjige = [Knjige.iz_slovarja(k) for k in slovar["knjige"]]
         return razdelek
+
 
 
 ZELIM_PREBRATI = Razdelek('ZELIM PREBRATI')
